@@ -5,14 +5,15 @@ Vagrant.configure("2") do |config|
   # Compartilhar a pasta onde a chave SSH foi gerada
   config.vm.synced_folder ".", "/vagrant_data"
 
-  # Máquina Master (wilS)
-  config.vm.define "wilS" do |control|
-    control.vm.hostname = "wilS"
+  # Máquina Master (ourS)
+  config.vm.define "ourS" do |control|
+    control.vm.hostname = "ourS"
     control.vm.network "private_network", ip: "192.168.56.110"
-    control.vm.provider "virtualbox" do |v|
+    control.vm.provider "qemu" do |v|
       v.memory = 1024
       v.cpus = 2
     end
+
     # Provisionamento da máquina Master
     control.vm.provision "shell", inline: <<-SHELL
       # Criar diretório .ssh e copiar as chaves
@@ -31,14 +32,15 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-  # Máquina Worker (wilSW)
-  config.vm.define "wilSW" do |control|
-    control.vm.hostname = "wilSW"
+  # Máquina Worker (ourSW)
+  config.vm.define "ourSW" do |control|
+    control.vm.hostname = "ourSW"
     control.vm.network "private_network", ip: "192.168.56.111"
     control.vm.provider "virtualbox" do |v|
       v.memory = 1024
       v.cpus = 2
     end
+
     # Provisionamento da máquina Worker
     control.vm.provision "shell", inline: <<-SHELL
       # Criar diretório .ssh e copiar as chaves
